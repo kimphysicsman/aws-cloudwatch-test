@@ -1,9 +1,10 @@
-<button id="push-btn" onclick="button_clickEvent()"> push </button>
+<button id="push-btn" onclick="button_clickEvent('POST')"> post </button>
+<button id="push-btn" onclick="button_clickEvent('GET')"> get </button>
 
 <script>
-    button_clickEvent = () => {
+    button_clickEvent = (method) => {
         fetch('/log', {
-            'method': 'POST',
+            'method': method,
         }).then(
             response => {
                 console.log("response", response)

@@ -1,3 +1,4 @@
 api/api/__pycache__/settings.cpython-310.pyc
 *.pyc
 api/log/data.log
+.env
