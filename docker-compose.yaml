@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./api:/api
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8002
+    ports:
+      - "8002:8002"
+    container_name: api
