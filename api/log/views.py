@@ -81,7 +81,7 @@ class HomeView(APIView):
         fake = Faker("ko_KR")
 
         data_list = []
-        for i in range(0, 10000):
+        for i in range(0, 9999):
             mall_id = 'wendy' if  i % 2 == 0 else 'hani'
             shop_no = '1' if i % 3 == 0 else '2'
             user = fake.name()
@@ -118,9 +118,8 @@ class LogView(APIView):
 
         data_list = []
         for log_event in log_events:
-            print(log_event)
             data = log_event['message']
             if(len(data_list) < 100):
-                data_list.append(data)
+                data_list.append(json.loads(data))
         
         return Response({'data_list' : data_list}, status=status.HTTP_200_OK)
