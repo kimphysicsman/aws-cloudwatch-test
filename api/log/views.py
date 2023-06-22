@@ -121,6 +121,6 @@ class LogView(APIView):
             print(log_event)
             data = log_event['message']
             if(len(data_list) < 100):
-                data_list(data)
+                data_list.append(data)
         
         return Response({'data_list' : data_list}, status=status.HTTP_200_OK)
