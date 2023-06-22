@@ -51,7 +51,7 @@ def get_filter_log_events():
 
     start = datetime.datetime.now()
     start_timestamp = start.timestamp() * 1000
-    log_events = client.filter_log_events(
+    response = client.filter_log_events(
             logGroupName=log_group_name,
             logStreamNames=[
                 log_stream_name
@@ -61,6 +61,7 @@ def get_filter_log_events():
             limit=10000,
             filterPattern=filter_pattern
         )
+    log_events = response["events"]
 
     end = datetime.datetime.now()
     print("=================")
@@ -118,8 +119,8 @@ class LogView(APIView):
         data_list = []
         for log_event in log_events:
             print(log_event)
-            # data = log_event['message']
-            # if(len(data_list) < 100):
-            #     data_list(data)
+            data = log_event['message']
+            if(len(data_list) < 100):
+                data_list(data)
         
         return Response({'data_list' : data_list}, status=status.HTTP_200_OK)
