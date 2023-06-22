@@ -80,7 +80,7 @@ class HomeView(APIView):
     def post(self, request):
         fake = Faker("ko_KR")
 
-        for j in range(0, 30):
+        for j in range(0, 300):
             data_list = []
             for i in range(0, 3000):
                 mall_id = 'wendy' if  i % 2 == 0 else 'hani'
@@ -107,7 +107,7 @@ class HomeView(APIView):
                 data_list.append(data)
 
             response = put_log_data_list(data_list)
-
+            print("put_log_data:", j * 3000)
 
         return Response({
             "message": "done", 
