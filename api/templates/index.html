@@ -1,9 +1,17 @@
-<button id="push-btn" onclick="button_clickEvent('POST')"> post </button>
-<button id="push-btn" onclick="button_clickEvent('GET')"> get </button>
-
+<button onclick="button_clickEvent('POST')"> post </button>
+<button onclick="button_clickEvent('GET')"> get </button>
+<br>
+<br>
+<button onclick="button_clickEvent('DATA')">data</button>
 <script>
     button_clickEvent = (method) => {
-        fetch('/log', {
+        let url = '/log'
+        if (method === 'DATA') {
+            url += '/home'
+            method = 'POST' 
+        }
+
+        fetch(url, {
             'method': method,
         }).then(
             response => {
