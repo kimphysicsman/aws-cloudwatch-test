@@ -36,7 +36,7 @@ def put_log_data_list(data_list):
     print("=================")
     print("** put_log_data_list() info **")
     print("data_list length:", len(data_list))
-    print("time:", start - end)
+    print("time:", end - start)
     print("=================")
 
     return response
@@ -66,7 +66,7 @@ def get_filter_log_events():
     print("=================")
     print("** get_filter_log_events() info **")
     print("log_events length:", len(log_events))
-    print("time:", start - end)
+    print("time:", end - start)
     print("=================")
 
     return log_events
@@ -115,4 +115,10 @@ class LogView(APIView):
     def get(self, request):
         log_events = get_filter_log_events()
 
-        return Response({'response' : log_events[:100]}, status=status.HTTP_200_OK)
+        data_list = []
+        for log_event in log_events:
+            data = log_event['message']
+            if(len(data_list) < 100):
+                data_list(data)
+        
+        return Response({'data_list' : data_list}, status=status.HTTP_200_OK)
