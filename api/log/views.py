@@ -117,8 +117,9 @@ class LogView(APIView):
 
         data_list = []
         for log_event in log_events:
-            data = log_event['message']
-            if(len(data_list) < 100):
-                data_list(data)
+            print(log_event)
+            # data = log_event['message']
+            # if(len(data_list) < 100):
+            #     data_list(data)
         
         return Response({'data_list' : data_list}, status=status.HTTP_200_OK)
