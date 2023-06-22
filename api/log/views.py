@@ -26,14 +26,50 @@ def put_log_data_list(data_list):
 
     client = boto3.client('logs', region_name='ap-northeast-2')
 
+    start = datetime.datetime.now()
     response = client.put_log_events(
         logGroupName=log_group_name,
         logStreamName=log_stream_name,
         logEvents=log_events
     )
+    end = datetime.datetime.now()
+    print("=================")
+    print("** put_log_data_list() info **")
+    print("data_list length:", len(data_list))
+    print("time:", start - end)
+    print("=================")
 
     return response
 
+"""boto3를 통해 CloudWatch로부터 로그데이터를 필터링하여 가져오는 함수
+"""
+def get_filter_log_events():
+    log_group_name = 'test2'
+    log_stream_name = 'test2'
+    filter_pattern = '{ $.mall_id = wendy }'
+    client = boto3.client('logs', region_name='ap-northeast-2')
+
+    start = datetime.datetime.now()
+    start_timestamp = start.timestamp() * 1000
+    log_events = client.filter_log_events(
+            logGroupName=log_group_name,
+            logStreamNames=[
+                log_stream_name
+            ],
+            startTime=int(1687324392442),
+            endTime=int(start_timestamp),
+            limit=10000,
+            filterPattern=filter_pattern
+        )
+
+    end = datetime.datetime.now()
+    print("=================")
+    print("** get_filter_log_events() info **")
+    print("log_events length:", len(log_events))
+    print("time:", start - end)
+    print("=================")
+
+    return log_events
 
 
 class HomeView(APIView):
@@ -77,30 +113,6 @@ class HomeView(APIView):
 
 class LogView(APIView):
     def get(self, request):
+        log_events = get_filter_log_events()
 
-        start = datetime.datetime.now()
-        start_timestamp = start.timestamp() * 1000
-
-        log_group_name = 'test2'
-        log_stream_name = 'test2'
-
-        client = boto3.client('logs', region_name='ap-northeast-2')
-        log_events_response = client.filter_log_events(
-                logGroupName=log_group_name,
-                logStreamNames=[
-                    log_stream_name
-                ],
-                startTime=int(1687324392442),
-                endTime=int(start_timestamp),
-                limit=10000,
-                filterPattern='{ $.mall_id = wendy }'
-            )
-
-        end = datetime.datetime.now()
-        print("filter_log_events :", end - start)
-
-        # 각 로그 이벤트의 메시지를 출력합니다.
-        for log_event in log_events_response['events']:
-            print(json.loads(log_event['message']))
-
-        return Response({'response' : log_events_response}, status=status.HTTP_200_OK)
+        return Response({'response' : log_events[:100]}, status=status.HTTP_200_OK)
