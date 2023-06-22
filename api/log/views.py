@@ -80,32 +80,33 @@ class HomeView(APIView):
     def post(self, request):
         fake = Faker("ko_KR")
 
-        data_list = []
-        for i in range(0, 9999):
-            mall_id = 'wendy' if  i % 2 == 0 else 'hani'
-            shop_no = '1' if i % 3 == 0 else '2'
-            user = fake.name()
-            product_no = fake.random.randrange(0, 100)
-            order_id = i
-            path_name = fake.address()
-            event = 'mouseclick'
-            value = fake.word()
-            is_mobile = True if i % 4 != 0 else False
-            
-            data = {
-                "mall_id": mall_id, 
-                "shop_no": shop_no,
-                "user": user,
-                "product_no": product_no,
-                "order_id": order_id,
-                "path_name": path_name,
-                "event": event,
-                "value": value,
-                "is_mobile": is_mobile,                
-            }
-            data_list.append(data)
+        for j in range(0, 30):
+            data_list = []
+            for i in range(0, 3000):
+                mall_id = 'wendy' if  i % 2 == 0 else 'hani'
+                shop_no = '1' if i % 3 == 0 else '2'
+                user = fake.name()
+                product_no = fake.random.randrange(0, 100)
+                order_id = i
+                path_name = fake.address()
+                event = 'mouseclick'
+                value = fake.word()
+                is_mobile = True if i % 4 != 0 else False
+                
+                data = {
+                    "mall_id": mall_id, 
+                    "shop_no": shop_no,
+                    "user": user,
+                    "product_no": product_no,
+                    "order_id": order_id,
+                    "path_name": path_name,
+                    "event": event,
+                    "value": value,
+                    "is_mobile": is_mobile,                
+                }
+                data_list.append(data)
 
-        response = put_log_data_list(data_list)
+            response = put_log_data_list(data_list)
 
 
         return Response({
