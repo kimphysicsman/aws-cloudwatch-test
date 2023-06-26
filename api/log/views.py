@@ -347,13 +347,13 @@ class OpenSearchView(APIView):
             
             response = create_doc_list_in_OpenSearch(doc_list)
 
-            result["took"] += response["took"]
+            result["took"] += int(response["took"])
             if response["error"]:
                 result["error"] += 1
             else:
                 result["success"] += 1
-                
-            print(i , result)
+
+            print(i , result["took"])
 
         return Response({
             "response": result
