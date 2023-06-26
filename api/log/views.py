@@ -189,8 +189,8 @@ def search_doc_in_OpenSearch(index, query):
 
     response = requests.get(url, auth=(username, password), json=query)
 
-    print(response.status_code)
-    print(response.json())
+    # print(response.status_code)
+    # print(response.json())
 
     return response
 
@@ -345,7 +345,7 @@ class OpenSearchView(APIView):
                 doc_list.append(index)
                 doc_list.append(data)
             
-            response = create_doc_list_in_OpenSearch(doc_list)
+            response = create_doc_list_in_OpenSearch(doc_list).json()
 
             result["took"] += int(response["took"])
             if response["error"]:
