@@ -151,8 +151,8 @@ def create_data_in_OpenSearch(data):
         headers=headers
     )
 
-    print(response.status_code)
-    print(response.json())
+    # print(response.status_code)
+    # print(response.json())
 
     return response
 
@@ -176,8 +176,8 @@ def create_doc_list_in_OpenSearch(doc_list):
         data=bulk_data,
     )
 
-    print(response.status_code)
-    print(response.json())
+    # print(response.status_code)
+    # print(response.json())
 
     return response
 
@@ -331,8 +331,8 @@ class OpenSearchView(APIView):
     
     def put(self, request):
         result = {
-            "success": 0,
-            "error": 0,
+            # "success": 0,
+            # "error": 0,
             "took": 0,
         }
 
@@ -348,10 +348,10 @@ class OpenSearchView(APIView):
             response = create_doc_list_in_OpenSearch(doc_list).json()
 
             result["took"] += int(response["took"])
-            if response["error"]:
-                result["error"] += 1
-            else:
-                result["success"] += 1
+            # if response["error"] == "true":
+            #     result["error"] += 1
+            # else:
+            #     result["success"] += 1
 
             print(i , result["took"])
 
