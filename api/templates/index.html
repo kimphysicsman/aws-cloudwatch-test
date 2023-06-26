@@ -1,7 +1,13 @@
-<button onclick="button_clickEvent('/log', 'GET')">log get</button>
+<!-- <button onclick="button_clickEvent('/log', 'GET')">log get</button> -->
 <br>
 <br>
-<button onclick="button_clickEvent('/log/home', 'POST')">home post</button>
+<button onclick="button_clickEvent('/log/opensearch', 'GET')">opensearch GET</button>
+<br>
+<br>
+<button onclick="button_clickEvent('/log/opensearch', 'POST')">opensearch POST</button>
+<br>
+<br>
+<button onclick="button_clickEvent('/log/opensearch', 'PUT')">opensearch PUT</button>
 <script>
     button_clickEvent = (url, method) => {
         fetch(url, {

@@ -146,3 +146,10 @@ LOGGING = {
         'level': 'DEBUG',
     }
 }
+
+
+import os
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", " ")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", " ")
+OPENSEARCH_DOMAIN = os.environ.get("OPENSEARCH_DOMAIN", " ")
