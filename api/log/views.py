@@ -330,16 +330,29 @@ class OpenSearchView(APIView):
         }, status=response.status_code)
     
     def put(self, request):
-        data_list = get_fake_data_list(1000)
+        result = {
+            "success": 0,
+            "error": 0,
+            "took": 0,
+        }
 
-        doc_list = []
-        for data in data_list:
-            index = {"index": {"_index": "test"}}
-            doc_list.append(index)
-            doc_list.append(data)
-        
-        response = create_doc_list_in_OpenSearch(doc_list)
+        for i in range(0, 999):
+            data_list = get_fake_data_list(10000)
+
+            doc_list = []
+            for data in data_list:
+                index = {"index": {"_index": "test"}}
+                doc_list.append(index)
+                doc_list.append(data)
+            
+            response = create_doc_list_in_OpenSearch(doc_list)
+
+            result["took"] += response["took"]
+            if response["error"]:
+                result["error"] += 1
+            else:
+                result["success"] += 1
 
         return Response({
-            "response": response.json()
+            "response": result
         }, status=response.status_code)
