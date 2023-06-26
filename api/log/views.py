@@ -352,6 +352,8 @@ class OpenSearchView(APIView):
                 result["error"] += 1
             else:
                 result["success"] += 1
+                
+            print(i , result)
 
         return Response({
             "response": result
