@@ -306,7 +306,7 @@ class OpenSearchView(APIView):
                 ]
                 }
             },
-            "size": 100
+            "size": 10000000
         }
 
         response = search_doc_in_OpenSearch('test', query)
