@@ -182,8 +182,8 @@ def create_doc_list_in_OpenSearch(doc_list):
     return response
 
 def search_doc_in_OpenSearch(index, query):
-    # url = f'{OPENSEARCH_DOMAIN}/{index}/_search?filter_path=hits.hits._source,took'
-    url = f'{OPENSEARCH_DOMAIN}/{index}/_search'
+    url = f'{OPENSEARCH_DOMAIN}/{index}/_search?filter_path=hits.hits._source,took'
+    # url = f'{OPENSEARCH_DOMAIN}/{index}/_search'
     username = 'TEST'
     password = AWS_SECRET_ACCESS_KEY
 
@@ -292,6 +292,11 @@ class LogView(APIView):
 
 class OpenSearchView(APIView):
     def get(self, reqeust):
+        result = {
+            "num": 0,
+            "took": 0,
+        }
+
         query = {
             "query": {
                 "bool": {
@@ -301,13 +306,17 @@ class OpenSearchView(APIView):
                 ]
                 }
             },
-            "size": 10000
+            "size": 100
         }
 
         response = search_doc_in_OpenSearch('test', query)
+        response_json = response.json()
+
+        result["took"] = int(response_json["took"])
+        result["num"] = len(response["hits"]["hits"]["_source"])
 
         return Response({
-            "response": response.json(),
+            "response": result,
         }, status=response.status_code)
 
     def post(self, request):
@@ -345,10 +354,11 @@ class OpenSearchView(APIView):
                 doc_list.append(index)
                 doc_list.append(data)
             
-            response = create_doc_list_in_OpenSearch(doc_list).json()
+            response = create_doc_list_in_OpenSearch(doc_list)
+            response_json = response.json()
 
-            result["took"] += int(response["took"])
-            # if response["error"] == "true":
+            result["took"] += int(response_json["took"])
+            # if response_json["error"] == "true":
             #     result["error"] += 1
             # else:
             #     result["success"] += 1
