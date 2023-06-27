@@ -182,8 +182,8 @@ def create_doc_list_in_OpenSearch(doc_list):
     return response
 
 def search_doc_in_OpenSearch(index, query):
-    url = f'{OPENSEARCH_DOMAIN}/{index}/_search?filter_path=hits.hits._source,took'
-    # url = f'{OPENSEARCH_DOMAIN}/{index}/_search'
+    # url = f'{OPENSEARCH_DOMAIN}/{index}/_search?filter_path=hits.hits._source,took'
+    url = f'{OPENSEARCH_DOMAIN}/{index}/_search'
     username = 'TEST'
     password = AWS_SECRET_ACCESS_KEY
 
@@ -306,17 +306,18 @@ class OpenSearchView(APIView):
                 ]
                 }
             },
-            "size": 10000000
+            "size": 1,
+            "track_total_hits": True 
         }
 
         response = search_doc_in_OpenSearch('test', query)
         response_json = response.json()
 
-        result["took"] = int(response_json["took"])
-        result["num"] = len(response_json["hits"]["hits"])
+        # result["took"] = int(response_json["took"])
+        # result["num"] = len(response_json["hits"]["hits"])
 
         return Response({
-            "response": result,
+            "response": response_json,
         }, status=response.status_code)
 
     def post(self, request):
