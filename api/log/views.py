@@ -313,7 +313,7 @@ class OpenSearchView(APIView):
         response_json = response.json()
 
         result["took"] = int(response_json["took"])
-        result["num"] = len(response_json["hits"]["hits"]["_source"])
+        result["num"] = len(response_json["hits"]["hits"])
 
         return Response({
             "response": result,
